@@ -1,0 +1,127 @@
+CREATE TABLE Users(
+name VARCHAR(128),
+email VARCHAR(128)
+)
+
+INSERT INTO Users(name, email) VALUES("Kristin", "email5@algo.com")
+
+DELETE FROM Users WHERE email="email2@algo.com"
+
+UPDATE Users SET name="ColleenUpdated" WHERE email="email1@algo.com"
+
+SELECT * FROM Users
+
+SELECT * FROM Users WHERE email="email1@algo.com"
+
+SELECT * FROM Users ORDER BY email
+
+DELETE FROM Ages;
+INSERT INTO Ages (name, age) VALUES ('Alishan', 26);
+INSERT INTO Ages (name, age) VALUES ('Elli', 37);
+INSERT INTO Ages (name, age) VALUES ('Eisha', 40);
+INSERT INTO Ages (name, age) VALUES ('Kaitlyn', 38);
+INSERT INTO Ages (name, age) VALUES ('Mason', 31);
+
+SELECT hex(name || age) AS X FROM Ages ORDER BY X => Solo funciona en sqlite
+
+CREATE TABLE Genre(
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+    name TEXT
+)
+
+CREATE TABLE Album(
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+    artist_id INTEGER,
+    title TEXT
+)
+
+CREATE TABLE Track(
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+    title TEXT,
+    album_id INTEGER,
+    genre_id INTEGER,
+    len INTEGER, rating INTEGER, count INTEGER
+)
+
+INSERT INTO Artist(name) VALUES ("Led Zeppelin")
+INSERT INTO Artist(name) VALUES ("AC/DC")
+
+/*El ; al final permite ingresar multiples querys en software*/
+INSERT INTO Genre(name) VALUES ("Rock");
+INSERT INTO Genre(name) VALUES ("Metal")
+
+INSERT INTO Album(title, artist_id) VALUES ("Who Made Who", 2);
+INSERT INTO Album(title, artist_id) VALUES ("IV", 1)
+
+INSERT INTO Track(title, rating, len, count, album_id, genre_id) VALUES ("Black Dog", 5, 297, 0, 2, 1);
+INSERT INTO Track(title, rating, len, count, album_id, genre_id) VALUES ("Starway", 5, 482, 0, 2, 1);
+INSERT INTO Track(title, rating, len, count, album_id, genre_id) VALUES ("About to Rock", 5, 313, 0, 1, 2);
+INSERT INTO Track(title, rating, len, count, album_id, genre_id) VALUES ("Who Made Who", 5, 207, 0, 1, 2);
+
+select Album.title, Artist.name from Album join Artist on Album.artist_id = Artist.id;
+select Track.title, Genre.name from Track join Genre on Track.genre_id = Genre.id;
+
+select Track.title, Artist.name, Album.title, Genre.name from
+    Track join Genre join Album join Artist on
+    Track.genre_id = Genre.id and Track.album_id = Album.id and Album.artist_id = Artist.id;
+
+INSERT or IGNORE => cuando se usa un tipo de campo unico, si el dato ya existe no lo vuelve a incluir
+
+SELECT Track.title, Album.title, Artist.name FROM Track JOIN Album JOIN Artist on Track.album_id = Album.id and Album.artist_id = Artist.id;
+
+SELECT Track.title, Artist.name, Album.title, Genre.name 
+    FROM Track JOIN Genre JOIN Album JOIN Artist 
+    ON Track.genre_id = Genre.ID and Track.album_id = Album.id AND Album.artist_id = Artist.id
+    ORDER BY Artist.name LIMIT 3
+
+
+create table User(
+	id integer not NULL primary key autoincrement UNIQUE,
+	name text,
+	email text
+);
+create table Course(
+	id integer not NULL primary key autoincrement UNIQUE,
+	title text
+);
+create table Member(
+	user_id integer,
+	course_id integer,
+	role integer,
+	PRIMARY KEY (user_id, course_id)
+);
+
+insert into User (name, email)
+    values ("user1", "user1@algo.com");
+insert into User (name, email)
+    values ("user2", "user2@algo.com");
+insert into User (name, email)
+    values ("user3", "user3@algo.com");
+insert into Course (title)
+    values ("python");
+insert into Course (title)
+    values ("SQL");
+insert into Course (title)
+    values ("PHP");
+
+insert into Member(user_id, course_id, role)
+    values (1, 1, 1);
+insert into Member(user_id, course_id, role)
+    values (2, 1, 0);
+insert into Member(user_id, course_id, role)
+    values (3, 1, 0);
+
+insert into Member(user_id, course_id, role)
+    values (1, 2, 0);
+insert into Member(user_id, course_id, role)
+    values (2, 2, 1);
+
+insert into Member(user_id, course_id, role)
+    values (2, 3, 1);
+insert into Member(user_id, course_id, role)
+    values (3, 3, 0);
+
+select User.name, Member.role, Course.title
+    from User join Member Join Course
+    on Member.user_id = User.id and Member.course_id = Course.id
+    order by Course.title, Member.role desc, User.name;
