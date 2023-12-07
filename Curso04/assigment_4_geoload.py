@@ -9,7 +9,8 @@ import sys
 apiKey = False
 
 if apiKey is False :
-    serviceUrl = "http://py4e-data.dr-chuck.net/geojson?"
+    serviceUrl = "http://py4e-data.dr-chuck.net/json?"
+    apiKey = 42
 else :
     serviceUrl = "https://maps.googleapis.com/maps/api/geocode/json?"
 
@@ -52,7 +53,7 @@ for line in fileHandler:
         pass #se usa para evitar error por dejar vacio donde deberia existir codigo
 
     params = dict()
-    params["query"] = address
+    params["address"] = address
 
     if apiKey is not False :
         params["key"] = apiKey
